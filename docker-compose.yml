@@ -1,0 +1,79 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    container_name: educore_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: educore_db
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-secret}
+      MYSQL_USER: ${DB_USERNAME:-educore}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - educore
+    healthcheck:
+      test: ["CMD","mysqladmin","ping","-h","localhost"]
+      timeout: 10s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: educore_backend
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./backend:/var/www
+    environment:
+      APP_ENV: production
+      APP_KEY: ${APP_KEY}
+      DB_HOST: db
+      DB_DATABASE: educore_db
+      DB_USERNAME: ${DB_USERNAME:-educore}
+      DB_PASSWORD: ${DB_PASSWORD:-secret}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - educore
+
+  nginx-backend:
+    image: nginx:alpine
+    container_name: educore_nginx_backend
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend:/var/www
+      - ./docker/nginx/backend.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+    networks:
+      - educore
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8000/api}
+    container_name: educore_frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    networks:
+      - educore
+
+volumes:
+  dbdata:
+    driver: local
+
+networks:
+  educore:
+    driver: bridge

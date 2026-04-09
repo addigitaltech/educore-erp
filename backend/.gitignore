@@ -1,0 +1,14 @@
+/vendor/
+/.env
+/.env.backup
+/.env.production
+/storage/logs/*.log
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/app/public/*
+/bootstrap/cache/*.php
+.phpunit.result.cache
+/node_modules/
+/public/hot
+/public/storage
