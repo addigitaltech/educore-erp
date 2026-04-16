@@ -1,9 +1,14 @@
 #!/bin/bash
 
-# Generate app key if not set
+# Create .env from environment variables if it doesn't exist
+if [ ! -f /var/www/html/.env ]; then
+    cp /var/www/html/.env.example /var/www/html/.env
+fi
+
+# Generate app key
 php artisan key:generate --force
 
-# Cache config
+# Cache config and routes
 php artisan config:cache
 php artisan route:cache
 
