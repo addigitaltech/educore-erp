@@ -273,4 +273,22 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}', [MaterialController::class, 'update']);
         Route::delete('/{id}', [MaterialController::class, 'destroy']);
     });
+
+    //creating admin password 
+    use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
+Route::get('/create-admin', function () {
+    User::updateOrCreate(
+        ['email' => 'admin@school.com'],
+        [
+            'name' => 'Super Admin',
+            'password' => Hash::make('Admin@123')
+        ]
+    );
+
+    return response()->json([
+        'message' => 'Admin account created successfully'
+    ]);
+});
 });
