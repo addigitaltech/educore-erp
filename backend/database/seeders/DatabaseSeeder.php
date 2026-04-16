@@ -12,8 +12,6 @@ class DatabaseSeeder extends Seeder
             SchoolSeeder::class,
             UserSeeder::class,
             AcademicSeeder::class,
-            ClassSubjectSeeder::class,
-            StudentSeeder::class,
             GradingSystemSeeder::class,
         ]);
     }
