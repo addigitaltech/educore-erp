@@ -13,7 +13,8 @@ php artisan config:cache
 php artisan route:cache
 
 # Run migrations and seed
-php artisan migrate --seed --force
+php artisan migrate --force
+php artisan db:seed --force 2>/dev/null || true
 
 # Create storage link
 php artisan storage:link
