@@ -38,16 +38,7 @@
           <span v-else><i class="fa fa-sign-in-alt" style="margin-right:8px"></i>Sign In</span>
         </button>
 
-        <!-- Demo accounts -->
-        <div style="margin-top:24px;padding-top:16px;border-top:1px solid var(--border)">
-          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Quick Demo Login</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-            <button v-for="d in demoAccounts" :key="d.role" class="btn btn-ghost btn-sm" @click="quickLogin(d)" style="justify-content:flex-start;font-size:12px;padding:6px 10px">
-              {{ d.icon }} {{ d.role }}
-            </button>
-          </div>
-        </div>
-      </div>
+        
 
       <div style="text-align:center;margin-top:16px;font-size:12px;color:var(--text3)">
         EduCore ERP · School Management System
