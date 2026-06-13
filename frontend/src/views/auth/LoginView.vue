@@ -47,22 +47,3 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import { useAuthStore } from '../../store/auth'
-const auth = useAuthStore()
-const email = ref(''), password = ref(''), showPw = ref(false)
-
-const demoAccounts = [
-  { role:'Admin',      icon:'🔑', email:'john@greenfield.edu',  password:'password' },
-  { role:'Teacher',    icon:'👨‍🏫', email:'sarah@greenfield.edu', password:'password' },
-  { role:'Student',    icon:'🎒', email:'michael@student.edu',  password:'password' },
-  { role:'Accountant', icon:'💰', email:'james@greenfield.edu', password:'password' },
-]
-
-async function handleLogin(){
-  if(!email.value||!password.value)return
-  await auth.login({email:email.value,password:password.value})
-}
-function quickLogin(d){email.value=d.email;password.value=d.password;handleLogin()}
-</script>
